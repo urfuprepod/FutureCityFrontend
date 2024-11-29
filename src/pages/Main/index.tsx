@@ -12,7 +12,7 @@ import {
 import { Flex, MainContainer, Title1 } from "src/shared/UI";
 import { useMemo, useState } from "react";
 import { FilterFabric, IAuthor, IDocument } from "src/shared/types";
-import { useQueryFilter } from "src/shared/hooks";
+import { useGenerateDecade, useQueryFilter } from "src/shared/hooks";
 import FiltersGrid from "src/Widgets/FiltersGrid";
 import ReactSelect, { SingleValue } from "react-select";
 import { useFilters } from "src/shared/hooks/useFilters";
@@ -21,6 +21,8 @@ const MainPage = () => {
     const [authors, setAuthors] = useState<IAuthor[]>(stubAuthors);
     const [picked, setPicked] = useQueryFilter("picked", []);
     const [documents, setDocuments] = useState<IDocument[]>(stubDocuments);
+
+    const decades = useGenerateDecade(documents);
 
     const filterConfig = useMemo<FilterFabric[]>(() => {
         return [
@@ -42,6 +44,15 @@ const MainPage = () => {
                 options: futureStatuses,
                 labelField: "name",
             },
+            {
+                label: "Десятилетия",
+                name: "decades",
+                type: "select",
+                labelField: "name",
+                placeholder: "Десятилетия",
+                isMulti: true,
+                options: decades,
+            },
         ];
     }, [authors, futureStatuses]);
 
@@ -60,8 +71,12 @@ const MainPage = () => {
             .map((el) => {
                 const documents = el.documents.filter(
                     (doc) =>
-                        !filter.status ||
-                        String(doc.futureStatusId) === filter.status
+                        (!filter.status ||
+                            String(doc.futureStatusId) === filter.status) &&
+                        (!filter.decades?.length ||
+                            filter.decades.includes(
+                                String(Math.floor(doc.year / 10) * 10)
+                            ))
                 );
                 return { ...el, documents };
             });
@@ -72,7 +87,10 @@ const MainPage = () => {
             const isAuthorsCorrect =
                 !filter.authors?.length ||
                 filter.authors.includes(String(el.authorId));
-            return isStatusCorrect && isAuthorsCorrect;
+            const isDecadeCorrect =
+                !filter.decades?.length ||
+                filter.decades.includes(String(Math.floor(el.year / 10) * 10));
+            return isStatusCorrect && isAuthorsCorrect && isDecadeCorrect;
         });
         return { authors: filteredAuthors, documents: filteredDocuments };
     }, [authors, documents, filter]);
@@ -82,7 +100,7 @@ const MainPage = () => {
             <Title1>Статистика научных статей о городе будущего</Title1>
             <FiltersGrid
                 filters={filterConfig}
-                itemsInRow={2}
+                itemsInRow={3}
                 value={filter}
                 onChangeFilters={updateFilters}
             />
