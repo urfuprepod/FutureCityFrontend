@@ -1,0 +1,14 @@
+.file {
+    position: relative;
+    
+    .file__extension {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        top: 12px;
+        color: #fff;
+        font-size: 1.3rem;
+        text-transform: lowercase;
+    }
+}

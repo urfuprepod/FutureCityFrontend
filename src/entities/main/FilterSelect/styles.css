@@ -1,0 +1,11 @@
+.select {
+    width: 100%;
+
+    .select__control {
+        min-height: 50px;
+        cursor: pointer;
+        &:hover {
+            border-color: #2684ff;
+        }
+    }
+}

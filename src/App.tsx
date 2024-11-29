@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Navigate, Route, Routes } from "react-router-dom";
+import { routes } from "./shared/constants";
+import SideBar from "./Widgets/Sidebar";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="application">
+            <SideBar />
+            <main className="application-content">
+                <Routes>
+                    {routes.map((el) => (
+                        <Route
+                            key={el.path}
+                            element={el.Component}
+                            path={el.path}
+                        />
+                    ))}
+                    <Route path="*" element={<Navigate to="/" />} />
+                </Routes>
+            </main>
+        </div>
+    );
 }
 
 export default App;

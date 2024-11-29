@@ -1,0 +1,10 @@
+.fake-input {
+    background: #f0f4fd;
+    border-radius: 6px;
+    border: none;
+    color: #72808e;
+    min-height: 40px;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    padding: 0.375rem 0.75rem;
+}

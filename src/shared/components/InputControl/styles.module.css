@@ -1,0 +1,11 @@
+.control {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.8rem;
+
+    label {
+        font-size: 1.6rem;
+        color: #9da7b0;
+        line-height: 1;
+    }
+}
