@@ -1,14 +1,21 @@
 html {
     font-size: 10px;
+    --text-color: #000000;
+    --error-color: #ff4d4f;
 }
 
 #root {
     flex: 1 1 auto;
 }
 
+.none {
+    display: none;
+}
+
 body {
     font-size: 1.6rem;
     display: flex;
+    background-color: #f1f4fa;
     flex-direction: column;
     justify-content: center;
     margin: 0;
@@ -29,9 +36,12 @@ button {
     padding: 0;
 }
 
+a:active, /* активная/посещенная ссылка */
+a:hover,  /* при наведении */
 a {
-    font-weight: 500;
-    text-decoration: inherit;
+  text-decoration: none;
+  color: #252b37;
+
 }
 
 

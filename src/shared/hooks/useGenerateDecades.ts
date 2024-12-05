@@ -6,7 +6,6 @@ export const useGenerateDecade = (documents: IDocument[]) => {
         const decadeGroups = documents.reduce(
             (acc: { name: string; id: number }[], doc: IDocument) => {
                 const decade = Math.floor(doc.year / 10) * 10;
-                console.log(decade);
                 const stringValue = `${decade}-${decade + 10}`;
                 if (acc.findIndex((el) => el.name === stringValue) > -1) return acc;
 

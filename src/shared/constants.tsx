@@ -1,4 +1,4 @@
-import { AuthorsPage, MainPage } from "src/pages";
+import { AuthorProfile, AuthorsPage, MainPage } from "src/pages";
 import { IAuthor, ICityFuture, IDocument, IRoute, ITag } from "./types";
 import { House, UserRoundPen } from "lucide-react";
 
@@ -132,5 +132,10 @@ export const routes: IRoute[] = [
         path: "/authors",
         Icon: <UserRoundPen />,
         Component: <AuthorsPage />,
+    },
+    {
+        name: "",
+        path: "/authors/:id",
+        Component: <AuthorProfile />,
     },
 ];

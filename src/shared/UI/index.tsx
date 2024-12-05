@@ -18,23 +18,67 @@ export const Title6 = styled.h6<{ fontSize?: number; margin?: number[] }>`
     color: #252b37;
 `;
 
-export const Title1 = styled.h1<{ fontSize?: number; margin?: number }>`
-    margin: 0;
+export const Title1 = styled.h1<{
+    fontSize?: number;
+    $mb?: number;
+    $mt?: number;
+    $ml?: number;
+    $mr?: number;
+}>`
+    margin-top: ${(props) => (props.$mt ? `${props.$mt}px` : "0")};
+    margin-bottom: ${(props) => (props.$mb ? `${props.$mb}px` : "0")};
+    margin-left: ${(props) => (props.$ml ? `${props.$ml}px` : "0")};
+    margin-right: ${(props) => (props.$mr ? `${props.$mr}px` : "0")};
     padding: 0;
-    font-size: ${(props) => (props.fontSize ? `${props.fontSize}px` : "4rem")};
+    font-size: ${(props) => (props.fontSize ? `${props.fontSize}px` : "3rem")};
     color: #252b37;
 `;
 
-export const Input = styled.input<{}>`
+export const Title2 = styled.h2<{
+    fontSize?: number;
+    $mb?: number;
+    $mt?: number;
+    $ml?: number;
+    $mr?: number;
+}>`
+    margin-top: ${(props) => (props.$mt ? `${props.$mt}px` : "0")};
+    margin-bottom: ${(props) => (props.$mb ? `${props.$mb}px` : "0")};
+    margin-left: ${(props) => (props.$ml ? `${props.$ml}px` : "0")};
+    margin-right: ${(props) => (props.$mr ? `${props.$mr}px` : "0")};
+    padding: 0;
+    font-size: ${(props) =>
+        props.fontSize ? `${props.fontSize}px` : "2.1rem"};
+    color: #252b37;
+`;
+
+export const DescriptionText = styled.p<{
+    fontSize?: number;
+    $mb?: number;
+    $mt?: number;
+    $ml?: number;
+    $mr?: number;
+}>`
+    margin-top: ${(props) => (props.$mt ? `${props.$mt}px` : "0")};
+    margin-bottom: ${(props) => (props.$mb ? `${props.$mb}px` : "0")};
+    margin-left: ${(props) => (props.$ml ? `${props.$ml}px` : "0")};
+    margin-right: ${(props) => (props.$mr ? `${props.$mr}px` : "0")};
+    padding: 0;
+    font-size: ${(props) =>
+        props.fontSize ? `${props.fontSize}px` : "1.6rem"};
+    color: #d5d5d5;
+`;
+
+export const Input = styled.input<{ $error?: boolean }>`
     display: block;
     border-radius: 6px;
     min-height: 40px;
-    border: 1px solid rgba(114, 128, 142, 0.3);
+    border: ${(props) =>
+        `1px solid ${props.$error ? "#ff4d4f" : "rgba(114, 128, 142, 0.3)"} `};
     width: 100%;
     height: calc(1.5em + 0.75rem + 2px);
     padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    font-weight: 400;
+    font-size: 1.6rem;
+    font-weight: 500;
     line-height: 1.5;
     color: #495057;
     background-color: #fff;
@@ -43,15 +87,46 @@ export const Input = styled.input<{}>`
     &:not(:disabled):focus {
         color: #495057;
         background-color: #fff;
-        border-color: #80bdff;
+        border-color: ${(props) => (props.$error ? "#ff4d4f" : "#80bdff")};
         outline: 0;
-        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        box-shadow: ${(props) =>
+            props.$error ? "none" : "0 0 0 0.2rem rgba(0, 123, 255, 0.25)"};
     }
 
     &:disabled {
         background: #f0f4fd;
         color: #72808e;
-        cursor: not-allowed;
+    }
+`;
+
+export const TextArea = styled.textarea<{ $error?: boolean }>`
+    display: block;
+    border-radius: 6px;
+    min-height: 40px;
+    border: 1px solid rgba(114, 128, 142, 0.3);
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    resize: none;
+    padding: 0.375rem 0.75rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:not(:disabled):focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: ${(props) => (props.$error ? "#ff4d4f" : "#80bdff")};
+        outline: 0;
+        box-shadow: ${(props) =>
+            props.$error ? "none" : "0 0 0 0.2rem rgba(0, 123, 255, 0.25)"};
+    }
+
+    &:disabled {
+        background: #f0f4fd;
+        color: #72808e;
     }
 `;
 
@@ -81,23 +156,24 @@ export const Flex = styled.div<{
     justify-content: ${(props) => props.justify};
 `;
 
-export const Button = styled.button<{}>`
+export const Button = styled.button<{ $danger?: boolean; $default?: boolean }>`
     min-height: 32px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: white;
+    color: ${(props) => (props.$default ? "#007bff" : "white")};
     font-weight: 500;
     border-radius: 10px;
     padding-inline: 20px;
     line-height: 1;
     font-size: 1.6rem;
     box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
-    background: #32b232;
+    background: ${(props) =>
+        props.$danger ? "#ed1a3b" : props.$default ? "white" : "#467be3"};
     transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-    &:hover {
-        background: green;
+    &:where(:hover, :focus) {
+        background: #225bce;
     }
 `;
 
@@ -121,6 +197,7 @@ export const FileButton = File;
 export const GraphContainer = styled.div<{ $max?: boolean }>`
     display: flex;
     flex-direction: column;
+    background-color: white;
     align-items: center;
     gap: 12px;
     min-height: 500px;
@@ -150,7 +227,7 @@ export const Sidebar = styled.aside<{ $collapsed?: boolean }>`
     display: flex;
     flex-direction: column;
     transition: all 0.5s ease;
-    flex: 0 0 ${(props) => `${props.$collapsed ? `300` : "64"}`}px;
+    flex: 0 0 ${(props) => `${props.$collapsed ? `200` : "64"}`}px;
     position: relative;
     overflow: hidden;
     padding: 10px 5px;
@@ -196,4 +273,19 @@ export const Card = styled.div<{}>`
 export const ErrorTitle = styled.h1`
     color: red;
     text-transform: uppercase;
+`;
+
+// document
+export const DocumentHeader = styled.strong<{ $fontSize?: number }>`
+    font-size: ${(props) =>
+        props.$fontSize ? `${props.$fontSize}px` : "1.8rem"};
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+`;
+
+export const DocumentSubPoint = styled.span<{ $fontSize?: number }>`
+    font-size: ${(props) =>
+        props.$fontSize ? `${props.$fontSize}px` : "1.2rem"};
+    color: #d5d5d5;
 `;

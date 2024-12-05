@@ -9,7 +9,6 @@ export function useQueryFilter(
 
     const [value, setValue] = useState<string[]>(() => {
         const jsonValue = searchParams.getAll(key);
-        console.log(jsonValue);
         if (jsonValue === null) return defaultValue;
         return jsonValue;
     });

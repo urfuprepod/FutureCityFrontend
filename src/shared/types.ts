@@ -48,8 +48,9 @@ export interface IUser {
 export interface IRoute {
     path: string;
     name: string;
-    Icon: JSX.Element,
+    Icon?: JSX.Element;
     Component: JSX.Element;
+    inDrawer?: boolean;
 }
 
 export type GraphValue = {
@@ -74,18 +75,16 @@ export type FilterFabric = {
         id: number;
         [key: string]: any;
     }[];
-    labelField?: string
+    labelField?: string;
 };
 
-
 // form
-export type FormFileldType = 'input' | 'textarea' | 'select' | 'file' | 'image'
+export type FormFileldType = "input" | "textarea" | "select" | "file" | "image";
 
-export interface IFormField  {
+export interface IFormField {
     name: string;
     type: FormFileldType;
     label: string;
     isRequired?: boolean;
-    span?: number;
     url?: string;
 }

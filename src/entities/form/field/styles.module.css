@@ -1,0 +1,23 @@
+.error-message {
+    color: var(--error-color);
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: #252b37;
+}
+
+.label {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    position: relative;
+    display: inline-block;
+
+
+    &.required::after {
+        content: '*';
+        color: var(--error-color);
+        position: absolute;
+        right: -8px;
+        top: 0;
+    }
+}

@@ -1,0 +1,36 @@
+.document-container {
+    height: 40px;
+    width: 40px;
+    flex: 0 0 40px;
+    position: relative;
+}
+
+.document__icon {
+    .rosso-primavera {
+        fill: "#f15642";
+    }
+
+    &.doc,
+    &.docx {
+        .rosso-primavera {
+            fill: #0263d1;
+        }
+    }
+
+    &.xls,
+    &.xlsx {
+        .rosso-primavera {
+            fill: #84bd5a;
+        }
+    }
+}
+
+.document__extension {
+    position: absolute;
+    font-size: 13px;
+    color: white;
+    bottom: 0px;
+    left: 9px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}

@@ -1,0 +1,7 @@
+.point__name, .point__value {
+    font-size: 1.6rem;
+}
+
+.point__name {
+    color: #d5d5d5;
+}
