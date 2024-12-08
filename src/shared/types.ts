@@ -1,3 +1,10 @@
+import {
+    FormState,
+    UseFormGetValues,
+    UseFormReset,
+    UseFormSetValue,
+} from "react-hook-form";
+
 export interface ICityFuture {
     id: number;
     name: string;
@@ -49,9 +56,10 @@ export interface IUser {
     login: string;
     lastName: string;
     firstName: string;
-    avatarUrl: string;
     isAdmin: boolean;
 }
+
+export type IUserBody = Omit<IUser, "id" | "isAdmin"> & { password: string };
 
 export interface IRoute {
     path: string;
@@ -84,4 +92,11 @@ export type FilterFabric = {
         [key: string]: any;
     }[];
     labelField?: string;
+};
+
+export type FormHandle = {
+    formState: FormState<Record<string, any>>;
+    getValues: UseFormGetValues<Record<string, any>>;
+    setValue: UseFormSetValue<Record<string, any>>;
+    reset: UseFormReset<Record<string, any>>;
 };

@@ -11,6 +11,7 @@ interface IFormField {
     type: FormFileldType;
     label: string;
     isRequired?: boolean;
+    isMulti?: boolean;
     url?: string;
     options?: {
         value: number;

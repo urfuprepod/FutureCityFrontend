@@ -9,10 +9,7 @@ export const documentsApi = createApi({
     }),
     tagTypes: ["Documents"],
     endpoints: (builder) => ({
-        getDocuments: builder.query<
-            { rows: IDocument[]; count: number },
-            undefined
-        >({
+        getDocuments: builder.query<IDocument[], undefined>({
             query: () => ({
                 url: ``,
             }),

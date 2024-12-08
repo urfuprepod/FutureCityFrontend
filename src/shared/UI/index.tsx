@@ -4,10 +4,12 @@ import File from "./File";
 type FlexAlign = "center" | "flex-start" | "flex-end";
 type FLexJustify = "space-between" | "center";
 
-export const GridLine = styled.div<{ $minWidth: number }>`
+export const GridLine = styled.div<{ $minWidth: number; $isFill?: boolean }>`
     display: grid;
     grid-template-columns: ${(props) =>
-        `repeat( auto-fit, minmax(${props.$minWidth}px, 1fr) )`};
+        `repeat( auto-${props.$isFill ? "fill" : "fit"}, minmax(${
+            props.$minWidth
+        }px, 1fr) )`};
     gap: 20px;
 `;
 
@@ -48,6 +50,23 @@ export const Title2 = styled.h2<{
     padding: 0;
     font-size: ${(props) =>
         props.fontSize ? `${props.fontSize}px` : "2.1rem"};
+    color: #252b37;
+`;
+
+export const Title3 = styled.h3<{
+    fontSize?: number;
+    $mb?: number;
+    $mt?: number;
+    $ml?: number;
+    $mr?: number;
+}>`
+    margin-top: ${(props) => (props.$mt ? `${props.$mt}px` : "0")};
+    margin-bottom: ${(props) => (props.$mb ? `${props.$mb}px` : "0")};
+    margin-left: ${(props) => (props.$ml ? `${props.$ml}px` : "0")};
+    margin-right: ${(props) => (props.$mr ? `${props.$mr}px` : "0")};
+    padding: 0;
+    font-size: ${(props) =>
+        props.fontSize ? `${props.fontSize}px` : "1.8rem"};
     color: #252b37;
 `;
 
@@ -224,26 +243,27 @@ export const MainContainer = styled.div`
 `;
 
 export const Sidebar = styled.aside<{ $collapsed?: boolean }>`
-    background: #f1f4fa;
     display: flex;
     flex-direction: column;
     transition: all 0.5s ease;
     flex: 0 0 ${(props) => `${props.$collapsed ? `200` : "64"}`}px;
     position: relative;
     overflow: hidden;
-    padding: 10px 5px;
+    padding: 10px 20px;
     position: sticky;
     top: 0;
     left: 0;
     height: 100dvh;
     z-index: 101;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white
 `;
 
 export const SidebarMenuButton = styled.button<{ $collapsed?: boolean }>`
     width: 32px;
     height: 32px;
     flex: 0 0 32px;
-    margin: 0 auto 20px;
+    margin: 0 0 20px;
     transition: 0.3s;
     background: transparent;
     cursor: pointer;

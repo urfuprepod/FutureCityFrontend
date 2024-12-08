@@ -1,0 +1,22 @@
+.container {
+    padding: 15px 20px;
+    border-radius: 2px;
+    background-color: #fbfcf5;
+}
+
+.star {
+    stroke: gold;
+    transition: all 0.25s ease;
+    fill: white;
+
+    &:not(.active):hover {
+        fill: #ffeb80;
+    }
+
+    &.active {
+        fill: gold;
+        &:hover {
+            fill: #f7f7f7;
+        }
+    }
+}

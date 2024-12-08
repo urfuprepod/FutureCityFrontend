@@ -16,8 +16,8 @@ const SideBar = () => {
                 <img style={{userSelect: 'none'}} width={15} height={15} src={SidebarIcon} alt="icon" />
             </SidebarMenuButton>
 
-            <Flex $isVertical gap={15} align="center">
-                {routes.map((el) => (
+            <Flex $isVertical gap={15} align="flex-start">
+                {routes.filter(el => !!el.name).map((el) => (
                     <CustomLink url={el.path} key={el.name}>
                         {el.Icon} {isCollapsed && el.name}
                     </CustomLink>

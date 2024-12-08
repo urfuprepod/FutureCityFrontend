@@ -10,6 +10,11 @@
         fill: "#f15642";
     }
 
+    &.jpg,
+    &.jpeg {
+        fill: #ffc107
+    }
+
     &.doc,
     &.docx {
         .rosso-primavera {
@@ -32,5 +37,5 @@
     bottom: 0px;
     left: 9px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }

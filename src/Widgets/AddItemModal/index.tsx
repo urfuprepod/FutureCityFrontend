@@ -2,7 +2,8 @@ import classNames from "classnames";
 import styles from "./styles.module.css";
 import { ModalHeader } from "src/entities/CreatingModal/components";
 import Form from "../Form";
-import { forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { FormHandle } from "src/shared/types";
 
 type Props = {
     title?: string;
@@ -26,15 +27,23 @@ const AddItemModal = forwardRef((props: Props, ref) => {
         fields,
     } = props;
 
+    const formRef = useRef<FormHandle>(null);
+
     useImperativeHandle(
         ref,
         () => {
             return {
-                sex: 3,
+                ...formRef.current,
             };
         },
-        []
+        [formRef]
     );
+
+    useEffect(() => {
+        if (!showed) {
+            formRef.current?.reset();
+        }
+    }, [showed])
 
     return (
         <>
@@ -53,14 +62,13 @@ const AddItemModal = forwardRef((props: Props, ref) => {
                             description={description}
                             closeShowed={closeShowed}
                         />
-                        {showed && (
-                            <Form
-                                ref={ref}
-                                defaultValues={defaultValues}
-                                onSubmit={onAccept}
-                                fields={fields}
-                            />
-                        )}
+
+                        <Form
+                            ref={formRef}
+                            defaultValues={defaultValues}
+                            onSubmit={onAccept}
+                            fields={fields}
+                        />
                     </div>
                 </div>
             </div>

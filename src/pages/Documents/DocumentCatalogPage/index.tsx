@@ -19,42 +19,35 @@ import { rtkHooks } from "src/app/store";
 import { usePagination } from "src/shared/hooks";
 
 function setDocumentToFormData(doc: IDocumentBody) {
+    console.log(doc.tagIds, "доклады папича");
     const formData: any = new FormData();
     formData.append("title", doc.title);
     formData.append("year", String(doc.year));
     formData.append("file", doc.file);
     formData.append("tagIds", doc.tagIds);
     formData.append("status", String(doc.status));
-    console.log('аоаоа')
+    console.log("аоаоа");
     return formData;
 }
 const DocumentCatalogPage = () => {
     const [isDocumentOpen, setIsDocumentOpen] = useState(false);
 
-    const [authors, setAuthors] = useState<IAuthor[]>(stubAuthors);
+    const { data: authors } = rtkHooks.useGetAuthorsQuery(undefined);
     const { data: tags } = rtkHooks.useGetTagsQuery(undefined);
     const [createDocument] = rtkHooks.useAddDocumentMutation();
     const ref = useRef(null);
 
     const { data } = rtkHooks.useGetDocumentsQuery(undefined);
 
-
-    const {pageCounts, currentPage, updatePage, itemsPerPage} = usePagination(data?.rows, 15);
-
-
     const { data: futureStatuses } =
         rtkHooks.useGetFutureStatusesQuery(undefined);
 
     const columns = useMemo<IFormField[]>(() => {
-        const parsedStatuses = (futureStatuses ?? []).map((el) => ({
-            value: el.id,
-            label: el.name,
-        }));
         const parsedTags = (tags ?? []).map((el) => ({
             value: el.id,
             label: el.name,
         }));
-        const parsedAuthors = authors.map((el) => ({
+        const parsedAuthors = (authors ?? []).map((el) => ({
             value: el.id,
             label: el.fullName,
         }));
@@ -64,21 +57,23 @@ const DocumentCatalogPage = () => {
                 type: "select",
                 name: "status",
                 label: "Статус города",
-                options: parsedStatuses,
-                onChange: (form: FormState<Record<string, any>>) => {
-                    console.log(form);
-                },
+                isRequired: true,
+                options: futureStatuses ?? [],
+                onChange(getValues, setValue) {},
             },
             {
                 type: "select",
                 name: "tagIds",
                 label: "Теги",
+                isRequired: true,
+                isMulti: true,
                 options: parsedTags,
             },
             {
                 type: "select",
                 name: "authors",
                 label: "Авторы",
+                isMulti: true,
                 options: parsedAuthors,
             },
         ];
@@ -92,7 +87,7 @@ const DocumentCatalogPage = () => {
     }, []);
 
     if (!data) return null;
-    const { rows: documents, count } = data;
+
     return (
         <Flex $isVertical gap={20}>
             <TitleWithButton
@@ -103,12 +98,10 @@ const DocumentCatalogPage = () => {
             </TitleWithButton>
 
             <GridLine $minWidth={300}>
-                {documents.map((doc) => (
-                    <DocumentChip key={doc.id} document={doc} extension="pdf" />
+                {data.map((doc) => (
+                    <DocumentChip key={doc.id} document={doc} />
                 ))}
             </GridLine>
-
-            
 
             <AddItemModal
                 showed={isDocumentOpen}

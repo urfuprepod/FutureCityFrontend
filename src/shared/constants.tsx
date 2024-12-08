@@ -1,6 +1,6 @@
-import { AuthorProfile, AuthorsPage, DocumentsPage, MainPage, TagsPage } from "src/pages";
+import { AuthorProfile, AuthorsPage, DocumentsPage, LoginPage, MainPage, TagsPage, UsersPage } from "src/pages";
 import { IAuthor, ICityFuture, IDocument, IRoute, ITag } from "./types";
-import { FileText, House, Tags, UserRoundPen } from "lucide-react";
+import { FileText, House, NotebookPen, ScanEye, Tags, UserRoundPen, Users } from "lucide-react";
 
 export const futureStatuses: ICityFuture[] = [
     { id: 0, name: "Утопия" },
@@ -130,7 +130,7 @@ export const routes: IRoute[] = [
     {
         name: "Авторы",
         path: "/authors",
-        Icon: <UserRoundPen />,
+        Icon: <NotebookPen />,
         Component: <AuthorsPage />,
     },
     {
@@ -149,5 +149,17 @@ export const routes: IRoute[] = [
         path: '/tags',
         Icon: <Tags />,
         Component: <TagsPage />
+    },
+    {
+        name: 'Пользователи',
+        path: '/users',
+        Icon: <Users />,
+        Component: <UsersPage />
+    },
+    {
+        name: 'Логин',
+        path: '/login',
+        Icon: <ScanEye />,
+        Component: <LoginPage isRegistry={false} />
     }
 ];

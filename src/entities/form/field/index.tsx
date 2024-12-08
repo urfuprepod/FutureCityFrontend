@@ -12,7 +12,7 @@ import {
 } from "react-hook-form";
 import { Flex, Input, TextArea } from "src/shared/UI";
 import styles from "./styles.module.css";
-import ReactSelect from "react-select";
+import ReactSelect, { SingleValue } from "react-select";
 
 const dictionary: Record<string, string> = {
     required: "Это обязательное поле",
@@ -33,7 +33,7 @@ const FormField: FC<
     // >
 > = (props) => {
     const {
-        field: { name, label, type, isRequired, options },
+        field: { name, label, type, isRequired, options, isMulti },
         register,
         error,
         control,
@@ -110,9 +110,20 @@ const FormField: FC<
                             className="select"
                             placeholder={"Выберите..."}
                             isClearable
+                            isMulti={isMulti}
                             options={options ?? []}
                             onChange={(selectedOption) =>
-                                setValue(name, selectedOption?.value)
+                                setValue(
+                                    name,
+                                    Array.isArray(selectedOption)
+                                        ? selectedOption.map((el) => el.value)
+                                        : (
+                                              selectedOption as SingleValue<{
+                                                  value: number;
+                                                  label: string;
+                                              }>
+                                          )?.value
+                                )
                             }
                             // {...register(name, { required: isRequired })}
                             classNamePrefix={"select"}

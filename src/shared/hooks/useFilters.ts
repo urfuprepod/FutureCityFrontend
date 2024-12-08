@@ -27,7 +27,8 @@ export const useFilters = (filters: FilterFabric[]) => {
                 ...acc,
                 [cur.name]: cur.isMulti
                     ? searchParams.getAll(cur.name)
-                    : searchParams.get(cur.name) ?? null,
+                    : searchParams.get(cur.name) ??
+                      (cur.type === "input" ? "" : null),
             };
         }, {});
     });

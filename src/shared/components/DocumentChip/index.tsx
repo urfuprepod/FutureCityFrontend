@@ -5,13 +5,12 @@ import DocumentIcon from "../DocumentIcon";
 import DocumentChipPoint from "./DocumentChipPoint";
 
 type Props = {
-    extension: string;
     className?: string;
     document: IDocument;
     skipAuthor?: boolean;
 };
 const DocumentChip: FC<Props> = React.memo((props) => {
-    const { extension, document, className, skipAuthor } = props;
+    const { document, className, skipAuthor } = props;
 
     const points = [{ title: "Год", value: String(document.year) }];
     if (!skipAuthor) {
@@ -22,7 +21,7 @@ const DocumentChip: FC<Props> = React.memo((props) => {
         <a href={`http://localhost:3000/` + 'static/' + document.file} download="myimage">
             <Card>
                 <Flex className={className} gap={15} align="center">
-                    <DocumentIcon fileExtension={extension} />
+                    <DocumentIcon fileExtension={document.file.split('.').at(-1) ?? 'trufanov'} />
                     <Flex
                         style={{overflow: 'hidden'}}
                         $isVertical

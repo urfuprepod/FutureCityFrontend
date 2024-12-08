@@ -1,8 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { routes } from "./shared/constants";
 import SideBar from "./Widgets/Sidebar";
+import { useGetCurrentUser } from "./app/hooks";
 
 function App() {
+    const { user, isLoading } = useGetCurrentUser();
+
+    if (isLoading) return "Loading...";
     return (
         <div className="application">
             <SideBar />

@@ -7,26 +7,20 @@ import { DocumentChip, Slider, TitleWithButton } from "src/shared/components";
 import styles from "./styles.module.css";
 import AddItemModal from "src/Widgets/AddItemModal";
 import { authorFormFields } from "src/entities/authors/constants";
-import { IDocument } from "src/shared/types";
-import { documents as stubDocuments } from "src/shared/constants";
+import { rtkHooks } from "src/app/store";
 
 const AuthorProfile = () => {
     const { id } = useParams();
 
-    const author = useMemo(() => {
-        const current = authors.find((el) => !id || el.id === +id);
-        if (!current) return undefined;
-        return current;
-    }, [authors]);
+    const { data, isLoading } = rtkHooks.useGetSingleAuthorQuery(id ? +id : -1);
 
     const [isEditingMode, setIsEditingMode] = useState<boolean>(false);
     const closeShowed = useCallback(() => {
         setIsEditingMode(false);
     }, [setIsEditingMode]);
 
-    const [documents, setDocuments] = useState<IDocument[]>(stubDocuments);
-
-    if (!author) return <ErrorTitle>Автор не найден!</ErrorTitle>;
+    if (isLoading) return <p>Loading...</p>;
+    if (!data) return <ErrorTitle>Автор не найден!</ErrorTitle>;
     return (
         <Flex $isVertical gap={12}>
             <Card>
@@ -38,7 +32,7 @@ const AuthorProfile = () => {
                             setIsEditingMode(true);
                         }}
                     >
-                        {author.fullName}
+                        {data.fullName}
                     </TitleWithButton>
                 </Flex>
                 <Flex gap={40} align="center">
@@ -46,12 +40,12 @@ const AuthorProfile = () => {
                         width={250}
                         height={250}
                         className={styles.author__avatar}
-                        src={author.avatarUrl ?? NoAvatar}
+                        src={data.avatarUrl ? `http://localhost:3000/`+data.avatarUrl : NoAvatar}
                     />
                     <Flex $isVertical gap={12}>
-                        <Title2>{author.fullName}</Title2>
+                        <Title2>{data.fullName}</Title2>
                         <DescriptionText fontSize={18}>
-                            {author.biography}
+                            {data.biography}
                         </DescriptionText>
                     </Flex>
                 </Flex>{" "}
@@ -61,12 +55,11 @@ const AuthorProfile = () => {
                 <Title2 $mb={15}>Работы автора</Title2>
                 <Slider>
                     <Flex gap={20}>
-                        {author.documents.map((el) => (
+                        {data.documents.map((el) => (
                             <DocumentChip
                                 key={el.id}
                                 document={el}
                                 skipAuthor
-                                extension="pdf"
                             />
                         ))}
                     </Flex>
@@ -81,8 +74,8 @@ const AuthorProfile = () => {
                     })
                 }
                 fields={authorFormFields}
-                defaultValues={author}
-                title={author.fullName}
+                defaultValues={data}
+                title={data.fullName}
                 description="Введите данные для редактирования и сохраните изменения"
             />
         </Flex>

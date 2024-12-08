@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { FilterSelect } from "src/entities/main";
 import { AvailableFilterValue, FilterFabric } from "src/shared/types";
-import { GridLayout } from "src/shared/UI";
+import { GridLayout, Input } from "src/shared/UI";
 
 type Props = {
     filters: FilterFabric[];
@@ -18,7 +18,14 @@ const FiltersGrid: FC<Props> = (props) => {
         <GridLayout $inRow={itemsInRow}>
             {filters.map((el) =>
                 el.type === "input" ? (
-                    <input />
+                    <Input
+                        key={el.name}
+                        placeholder={el.placeholder ?? "Введите"}
+                        value={String(value[el.name])}
+                        onChange={(e) =>
+                            onChangeFilters(el.name, e.target.value)
+                        }
+                    />
                 ) : (
                     <FilterSelect
                         key={el.name}

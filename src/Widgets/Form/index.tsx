@@ -10,9 +10,10 @@ type Props = {
     fields: IFormField[];
     defaultValues?: Record<string, any>;
     onSubmit?: (data: any) => Promise<void>;
+    buttonTitle?: string;
 };
 const Form = forwardRef((props: Props, ref) => {
-    const { fields, defaultValues, onSubmit } = props;
+    const { fields, defaultValues, onSubmit, buttonTitle } = props;
 
     const {
         register,
@@ -40,6 +41,7 @@ const Form = forwardRef((props: Props, ref) => {
                 formState,
                 getValues,
                 setValue,
+                reset
             };
         },
         []
@@ -59,33 +61,10 @@ const Form = forwardRef((props: Props, ref) => {
                     />
                 ))}
             </Flex>
-            {/* <FormField
-                field={{
-                    type: "input",
-                    label: "голые тетки",
-                    name: "girls",
-                    isRequired: true,
-                }}
-                error={errors.girls}
-                register={register}
-            /> */}
 
-            {/* <label htmlFor="name">Name</label>
-
-                <input
-                    id="name"
-                    {...register("name", { required: true, maxLength: 30 })}
-                />
-                {errors.name && errors.name.type === "required" && (
-                    <span>This is required</span>
-                )}
-                {errors.name && errors.name.type === "maxLength" && (
-                    <span>Max length exceeded</span>
-                )} */}
             <Button className={styles["submit-button"]} type="submit">
-                Сохранить
+                {buttonTitle ?? "Сохранить"}
             </Button>
-            {/* <input type="submit" /> */}
         </form>
     );
 });
