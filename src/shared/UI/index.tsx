@@ -65,7 +65,8 @@ export const DescriptionText = styled.p<{
     padding: 0;
     font-size: ${(props) =>
         props.fontSize ? `${props.fontSize}px` : "1.6rem"};
-    color: #d5d5d5;
+    color: #a5a5a5;
+    font-weight: 500;
 `;
 
 export const Input = styled.input<{ $error?: boolean }>`
@@ -102,7 +103,7 @@ export const Input = styled.input<{ $error?: boolean }>`
 export const TextArea = styled.textarea<{ $error?: boolean }>`
     display: block;
     border-radius: 6px;
-    min-height: 40px;
+    min-height: 85px;
     border: 1px solid rgba(114, 128, 142, 0.3);
     width: 100%;
     height: calc(1.5em + 0.75rem + 2px);
@@ -268,6 +269,7 @@ export const Card = styled.div<{}>`
     flex-direction: column;
     background-color: #fff;
     background-clip: border-box;
+    height: 100%;
 `;
 
 export const ErrorTitle = styled.h1`
@@ -282,6 +284,7 @@ export const DocumentHeader = styled.strong<{ $fontSize?: number }>`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    max-width: 100%;
 `;
 
 export const DocumentSubPoint = styled.span<{ $fontSize?: number }>`

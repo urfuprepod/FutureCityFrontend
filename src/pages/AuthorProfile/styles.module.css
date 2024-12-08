@@ -2,4 +2,5 @@
     border-radius: 50%;
     object-fit: cover;
     object-position: top;
+    flex: 0 0 250px;
 }

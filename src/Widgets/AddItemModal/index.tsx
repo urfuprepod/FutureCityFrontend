@@ -2,7 +2,7 @@ import classNames from "classnames";
 import styles from "./styles.module.css";
 import { ModalHeader } from "src/entities/CreatingModal/components";
 import Form from "../Form";
-import { IFormField } from "src/shared/types";
+import { forwardRef, useImperativeHandle } from "react";
 
 type Props = {
     title?: string;
@@ -15,9 +15,26 @@ type Props = {
     fields: IFormField[];
 };
 
-const AddItemModal = (props: Props) => {
-    const { title, description, showed, closeShowed, buttonTitle, fields } =
-        props;
+const AddItemModal = forwardRef((props: Props, ref) => {
+    const {
+        title,
+        description,
+        showed,
+        closeShowed,
+        onAccept,
+        defaultValues,
+        fields,
+    } = props;
+
+    useImperativeHandle(
+        ref,
+        () => {
+            return {
+                sex: 3,
+            };
+        },
+        []
+    );
 
     return (
         <>
@@ -36,13 +53,19 @@ const AddItemModal = (props: Props) => {
                             description={description}
                             closeShowed={closeShowed}
                         />
-                        <Form fields={fields} />
+                        {showed && (
+                            <Form
+                                ref={ref}
+                                defaultValues={defaultValues}
+                                onSubmit={onAccept}
+                                fields={fields}
+                            />
+                        )}
                     </div>
-                    <button>{buttonTitle || "Сохранить"}</button>
                 </div>
             </div>
         </>
     );
-};
+});
 
 export default AddItemModal;

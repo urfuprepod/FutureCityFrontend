@@ -1,31 +1,58 @@
-import React, { FC } from "react";
-import { Flex, GridLayout } from "src/shared/UI";
+import { FC, forwardRef, useImperativeHandle } from "react";
+import { Button, Flex } from "src/shared/UI";
 import { useForm } from "react-hook-form";
 import { FormField } from "src/entities/form";
-import { IFormField } from "src/shared/types";
+import styles from "./styles.module.css";
 
 type Props = {
     gap?: number;
     inRow?: number;
     fields: IFormField[];
+    defaultValues?: Record<string, any>;
+    onSubmit?: (data: any) => Promise<void>;
 };
-const Form: FC<Props> = (props) => {
+const Form = forwardRef((props: Props, ref) => {
+    const { fields, defaultValues, onSubmit } = props;
+
     const {
         register,
         handleSubmit,
-        formState: { errors },
-    } = useForm();
+        reset,
+        formState,
+        control,
+        getValues,
+        setValue,
+    } = useForm({
+        defaultValues: defaultValues ?? {},
+    });
 
-    const { fields } = props;
+    const { errors } = formState;
 
-    const onSubmit = (data: any) => console.log(data);
+    const onSubmitForm = async (data: any) => {
+        onSubmit?.(data);
+        console.log(data);
+    };
+
+    useImperativeHandle(
+        ref,
+        () => {
+            return {
+                formState,
+                getValues,
+                setValue,
+            };
+        },
+        []
+    );
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmitForm)}>
             <Flex $isVertical gap={10}>
                 {fields.map((field) => (
                     <FormField
                         key={field.name}
+                        control={control}
+                        setValue={setValue}
                         field={field}
                         error={errors[field.name]}
                         register={register}
@@ -55,9 +82,12 @@ const Form: FC<Props> = (props) => {
                 {errors.name && errors.name.type === "maxLength" && (
                     <span>Max length exceeded</span>
                 )} */}
-            <input type="submit" />
+            <Button className={styles["submit-button"]} type="submit">
+                Сохранить
+            </Button>
+            {/* <input type="submit" /> */}
         </form>
     );
-};
+});
 
 export default Form;

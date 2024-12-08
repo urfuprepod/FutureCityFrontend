@@ -14,7 +14,6 @@ import { useMemo, useState } from "react";
 import { FilterFabric, IAuthor, IDocument } from "src/shared/types";
 import { useGenerateDecade, useQueryFilter } from "src/shared/hooks";
 import FiltersGrid from "src/Widgets/FiltersGrid";
-import ReactSelect, { SingleValue } from "react-select";
 import { useFilters } from "src/shared/hooks/useFilters";
 
 const MainPage = () => {

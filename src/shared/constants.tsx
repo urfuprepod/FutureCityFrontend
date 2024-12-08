@@ -1,6 +1,6 @@
-import { AuthorProfile, AuthorsPage, MainPage } from "src/pages";
+import { AuthorProfile, AuthorsPage, DocumentsPage, MainPage, TagsPage } from "src/pages";
 import { IAuthor, ICityFuture, IDocument, IRoute, ITag } from "./types";
-import { House, UserRoundPen } from "lucide-react";
+import { FileText, House, Tags, UserRoundPen } from "lucide-react";
 
 export const futureStatuses: ICityFuture[] = [
     { id: 0, name: "Утопия" },
@@ -31,7 +31,7 @@ export const documents: IDocument[] = [
         title: "Москва в 1933",
         year: 2014,
         authorId: 1,
-        file: "public/documents/test.pdf",
+        file: "test.pdf",
         tags: tags.slice(0, 4),
         cityStatus: futureStatuses[0],
         futureStatusId: 0,
@@ -138,4 +138,16 @@ export const routes: IRoute[] = [
         path: "/authors/:id",
         Component: <AuthorProfile />,
     },
+    {
+        name: "Документы",
+        path: "/documents",
+        Icon: <FileText />,
+        Component: <DocumentsPage />,
+    },
+    {
+        name: 'Теги',
+        path: '/tags',
+        Icon: <Tags />,
+        Component: <TagsPage />
+    }
 ];

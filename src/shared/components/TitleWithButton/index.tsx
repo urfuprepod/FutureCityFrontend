@@ -4,13 +4,17 @@ import { Button, Flex, Title1 } from "src/shared/UI";
 type Props = {
     buttonTitle: string;
     onClick?: () => void;
+    marginBottom?: number;
 };
 const TitleWithHeader: FC<PropsWithChildren<Props>> = (props) => {
-    const { onClick, buttonTitle, children } = props;
+    const { onClick, buttonTitle, children, marginBottom } = props;
 
-    console.log(children);
     return (
-        <Flex gap={12} align="center">
+        <Flex
+            style={{ marginBottom: marginBottom ?? 0 }}
+            gap={12}
+            align="center"
+        >
             <Title1>{children}</Title1>
             <Button onClick={onClick}>{buttonTitle}</Button>
         </Flex>

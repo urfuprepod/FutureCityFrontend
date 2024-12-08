@@ -13,7 +13,9 @@ const ModalHeader: FC<Props> = React.memo((props) => {
 
     return (
         <>
-            <ArrowLeftIcon cursor={'pointer'} fontSize={30} width={30} onClick={closeShowed} />
+            <span onClick={closeShowed}>
+                <ArrowLeftIcon cursor={"pointer"} fontSize={30} width={30} />
+            </span>
 
             {title && <Title2>{title}</Title2>}
             {description && (

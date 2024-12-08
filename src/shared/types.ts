@@ -1,5 +1,3 @@
-export type CityFuture = "Utopia" | "Antiutopia";
-
 export interface ICityFuture {
     id: number;
     name: string;
@@ -17,6 +15,8 @@ export interface ITag {
     futureStatusId: number;
 }
 
+export type ITagBody = Pick<ITag, "name" | "futureStatusId">;
+
 export interface IDocument {
     id: number;
     title: string;
@@ -27,6 +27,14 @@ export interface IDocument {
     tags: ITag[];
     authorId: number;
 }
+
+export type IDocumentBody = {
+    title: string;
+    file: File;
+    year: number;
+    tagIds: number[];
+    status: number;
+};
 
 export interface IAuthor {
     id: number;
@@ -77,14 +85,3 @@ export type FilterFabric = {
     }[];
     labelField?: string;
 };
-
-// form
-export type FormFileldType = "input" | "textarea" | "select" | "file" | "image";
-
-export interface IFormField {
-    name: string;
-    type: FormFileldType;
-    label: string;
-    isRequired?: boolean;
-    url?: string;
-}

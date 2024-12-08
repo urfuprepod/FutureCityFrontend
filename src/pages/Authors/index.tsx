@@ -3,7 +3,7 @@ import { AuthorCard } from "src/entities/authors";
 import { authorFormFields } from "src/entities/authors/constants";
 import { TitleWithButton } from "src/shared/components";
 import { authors } from "src/shared/constants";
-import { Flex, GridLine, Title1 } from "src/shared/UI";
+import { Flex, GridLine } from "src/shared/UI";
 import AddItemModal from "src/Widgets/AddItemModal";
 
 const AuthorsPage = () => {
@@ -11,7 +11,6 @@ const AuthorsPage = () => {
 
     return (
         <Flex $isVertical gap={20}>
-            <Title1>Список авторов</Title1>
             <TitleWithButton
                 buttonTitle="Добавить"
                 onClick={() => setIsOpen(true)}

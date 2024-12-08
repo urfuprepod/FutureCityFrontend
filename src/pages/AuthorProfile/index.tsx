@@ -1,19 +1,14 @@
 import { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { authors } from "src/shared/constants";
-import {
-    Button,
-    Card,
-    ErrorTitle,
-    Flex,
-    TextArea,
-    Title1,
-    Title2,
-} from "src/shared/UI";
+import { Card, DescriptionText, ErrorTitle, Flex, Title2 } from "src/shared/UI";
 import NoAvatar from "src/assets/no-avatar.jpg";
-import { DocumentChip, FakeInput, Slider } from "src/shared/components";
+import { DocumentChip, Slider, TitleWithButton } from "src/shared/components";
 import styles from "./styles.module.css";
 import AddItemModal from "src/Widgets/AddItemModal";
+import { authorFormFields } from "src/entities/authors/constants";
+import { IDocument } from "src/shared/types";
+import { documents as stubDocuments } from "src/shared/constants";
 
 const AuthorProfile = () => {
     const { id } = useParams();
@@ -29,19 +24,22 @@ const AuthorProfile = () => {
         setIsEditingMode(false);
     }, [setIsEditingMode]);
 
+    const [documents, setDocuments] = useState<IDocument[]>(stubDocuments);
+
     if (!author) return <ErrorTitle>Автор не найден!</ErrorTitle>;
     return (
         <Flex $isVertical gap={12}>
             <Card>
                 <Flex>
-                    <Title1 $mb={20}>{author.fullName}</Title1>{" "}
-                    <Button
+                    <TitleWithButton
+                        marginBottom={20}
+                        buttonTitle="Редактировать"
                         onClick={() => {
                             setIsEditingMode(true);
                         }}
                     >
-                        Редактировать
-                    </Button>
+                        {author.fullName}
+                    </TitleWithButton>
                 </Flex>
                 <Flex gap={40} align="center">
                     <img
@@ -50,10 +48,13 @@ const AuthorProfile = () => {
                         className={styles.author__avatar}
                         src={author.avatarUrl ?? NoAvatar}
                     />
-
-                    <Title2>{author.fullName}</Title2>
+                    <Flex $isVertical gap={12}>
+                        <Title2>{author.fullName}</Title2>
+                        <DescriptionText fontSize={18}>
+                            {author.biography}
+                        </DescriptionText>
+                    </Flex>
                 </Flex>{" "}
-                <FakeInput>{author.biography}</FakeInput>
             </Card>
 
             <Card>
@@ -64,6 +65,7 @@ const AuthorProfile = () => {
                             <DocumentChip
                                 key={el.id}
                                 document={el}
+                                skipAuthor
                                 extension="pdf"
                             />
                         ))}
@@ -78,6 +80,8 @@ const AuthorProfile = () => {
                         resolve();
                     })
                 }
+                fields={authorFormFields}
+                defaultValues={author}
                 title={author.fullName}
                 description="Введите данные для редактирования и сохраните изменения"
             />
