@@ -7,7 +7,7 @@ export const authorsApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: urlApi + "authors",
     }),
-    tagTypes: ["Authors"],
+    tagTypes: ["Authors", 'One'],
     endpoints: (builder) => ({
         getAuthors: builder.query<IAuthor[], undefined>({
             query: () => ({
@@ -19,6 +19,7 @@ export const authorsApi = createApi({
             query: (id: number) => ({
                 url: `/one/${id}`,
             }),
+            providesTags: ["One"],
         }),
         addAuthor: builder.mutation<IAuthor, FormData>({
             query: (body: FormData) => ({
@@ -28,5 +29,13 @@ export const authorsApi = createApi({
             }),
             invalidatesTags: ["Authors"],
         }),
+        editAuthor: builder.mutation<IAuthor, { id: number; body: FormData }>({
+            query: (body: { id: number; body: FormData }) => ({
+                url: `/edit/${body.id}`,
+                method: "PUT",
+                body: body.body,
+            }),
+            invalidatesTags: ["Authors", "One"],
+        })
     }),
 });

@@ -1,6 +1,22 @@
-import { AuthorProfile, AuthorsPage, DocumentsPage, LoginPage, MainPage, TagsPage, UsersPage } from "src/pages";
-import { IAuthor, ICityFuture, IDocument, IRoute, ITag } from "./types";
-import { FileText, House, NotebookPen, ScanEye, Tags, UserRoundPen, Users } from "lucide-react";
+import {
+    AuthorProfile,
+    AuthorsPage,
+    DocumentsPage,
+    LoginPage,
+    MainPage,
+    TagsPage,
+    UsersPage,
+} from "src/pages";
+import { IAuthor, ICityFuture, IDocument, IRoute, ITag, IUser } from "./types";
+import {
+    FileText,
+    House,
+    NotebookPen,
+    ScanEye,
+    Tags,
+    UserRoundPen,
+    Users,
+} from "lucide-react";
 
 export const futureStatuses: ICityFuture[] = [
     { id: 0, name: "Утопия" },
@@ -136,6 +152,7 @@ export const routes: IRoute[] = [
     {
         name: "",
         path: "/authors/:id",
+        inDrawer: false,
         Component: <AuthorProfile />,
     },
     {
@@ -145,21 +162,32 @@ export const routes: IRoute[] = [
         Component: <DocumentsPage />,
     },
     {
-        name: 'Теги',
-        path: '/tags',
+        name: "Теги",
+        path: "/tags",
         Icon: <Tags />,
-        Component: <TagsPage />
+        Component: <TagsPage />,
     },
     {
-        name: 'Пользователи',
-        path: '/users',
+        name: "Пользователи",
+        path: "/users",
         Icon: <Users />,
-        Component: <UsersPage />
+        Component: <UsersPage />,
+        userValidate: (user?: IUser) => !!user?.isAdmin,
     },
     {
-        name: 'Логин',
-        path: '/login',
+        name: "Логин",
+        path: "/login",
+        inDrawer: false,
         Icon: <ScanEye />,
-        Component: <LoginPage isRegistry={false} />
-    }
+        Component: <LoginPage isRegistry={false} />,
+        userValidate: (user) => !user,
+    },
+    {
+        name: "Регистрация",
+        path: "/register",
+        inDrawer: false,
+        Icon: <ScanEye />,
+        Component: <LoginPage isRegistry />,
+        userValidate: (user) => !user,
+    },
 ];

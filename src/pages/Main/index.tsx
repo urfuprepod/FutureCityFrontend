@@ -1,9 +1,4 @@
 import {
-    futureStatuses,
-    authors as stubAuthors,
-    documents as stubDocuments,
-} from "src/shared/constants";
-import {
     AuthorsDoughnut,
     AuthorsGraph,
     DocumentsTrandChart,
@@ -12,14 +7,16 @@ import {
 import { Flex, MainContainer, Title1 } from "src/shared/UI";
 import { useMemo, useState } from "react";
 import { FilterFabric, IAuthor, IDocument } from "src/shared/types";
-import { useGenerateDecade, useQueryFilter } from "src/shared/hooks";
+import { useGenerateDecade } from "src/shared/hooks";
 import FiltersGrid from "src/Widgets/FiltersGrid";
 import { useFilters } from "src/shared/hooks/useFilters";
+import { rtkHooks } from "src/app/store";
 
 const MainPage = () => {
-    const [authors, setAuthors] = useState<IAuthor[]>(stubAuthors);
-    const [picked, setPicked] = useQueryFilter("picked", []);
-    const [documents, setDocuments] = useState<IDocument[]>(stubDocuments);
+    const { data: authors } = rtkHooks.useGetAuthorsQuery(undefined);
+    const { data: documents } = rtkHooks.useGetDocumentsQuery(undefined);
+    const { data: futureStatuses } =
+        rtkHooks.useGetFutureStatusesQuery(undefined);
 
     const decades = useGenerateDecade(documents);
 
@@ -31,7 +28,7 @@ const MainPage = () => {
                 type: "select",
                 placeholder: "Авторы",
                 isMulti: true,
-                options: authors,
+                options: authors ?? [],
                 labelField: "fullName",
             },
             {
@@ -40,7 +37,7 @@ const MainPage = () => {
                 type: "select",
                 placeholder: "Статусы",
                 isMulti: false,
-                options: futureStatuses,
+                options: futureStatuses ?? [],
                 labelField: "name",
             },
             {
@@ -60,8 +57,9 @@ const MainPage = () => {
     const config = useMemo<{
         authors: IAuthor[];
         documents: IDocument[];
+        groupedByLocation: Record<string, number>;
     }>(() => {
-        const filteredAuthors = authors
+        const filteredAuthors = (authors ?? [])
             .filter(
                 (author) =>
                     !filter.authors?.length ||
@@ -80,18 +78,35 @@ const MainPage = () => {
                 return { ...el, documents };
             });
 
-        const filteredDocuments = documents.filter((el) => {
+        const filteredDocuments = (documents ?? []).filter((el) => {
             const isStatusCorrect =
                 !filter.status || String(el.futureStatusId) === filter.status;
             const isAuthorsCorrect =
                 !filter.authors?.length ||
-                filter.authors.includes(String(el.authorId));
+                el.authors.some((aut) =>
+                    (filter.authors as string[]).includes(String(aut.id))
+                );
+
             const isDecadeCorrect =
                 !filter.decades?.length ||
                 filter.decades.includes(String(Math.floor(el.year / 10) * 10));
             return isStatusCorrect && isAuthorsCorrect && isDecadeCorrect;
         });
-        return { authors: filteredAuthors, documents: filteredDocuments };
+        const groupedByLocation = filteredDocuments.reduce<
+            Record<string, number>
+        >((acc: Record<string, number>, cur: IDocument) => {
+            if (!acc[cur.title]) {
+                acc[cur.title] = 1;
+            } else {
+                acc[cur.title]++;
+            }
+            return acc;
+        }, {});
+        return {
+            authors: filteredAuthors,
+            documents: filteredDocuments,
+            groupedByLocation,
+        };
     }, [authors, documents, filter]);
 
     return (
@@ -106,8 +121,8 @@ const MainPage = () => {
             <MainContainer>
                 <AuthorsGraph authors={config.authors} />
                 <AuthorsDoughnut documents={config.documents} />
-                <TagsGraph authors={authors} />
-                <DocumentsTrandChart documents={documents} />
+                <TagsGraph authors={config.authors} />
+                <DocumentsTrandChart documents={config.documents} />
             </MainContainer>
         </Flex>
     );

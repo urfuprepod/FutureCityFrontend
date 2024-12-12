@@ -5,7 +5,7 @@ export const loginColumns: IFormField[] = [
         label: "Логин",
         isRequired: true,
     },
-    { type: "input", name: "password", label: "Пароль", isRequired: true },
+    { type: "password", name: "password", label: "Пароль", isRequired: true },
 ];
 
 export const registrationColumns: IFormField[] = [

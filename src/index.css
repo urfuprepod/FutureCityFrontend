@@ -48,12 +48,13 @@ a {
 .application {
     flex: 1 1 auto;
     display: flex;
-    gap: 20px;
 
     .application-content {
         flex: 1 1 auto;
-        padding: 20px;
+        padding: 90px 20px 20px 20px;
         margin: 0 auto;
+        overflow-x: hidden;
         max-width: 1540px;
+        position: relative;
     }
 }

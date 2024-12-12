@@ -1,0 +1,28 @@
+.dropdown {
+    position: absolute;
+    right: 0;
+    display: none;
+    bottom: 0;
+    background: white;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transform: translateY(100%);
+    z-index: 100;
+
+
+    &.open {
+        display: flex;
+    }
+
+    .dropdown-item {
+        padding: 12px 8px;
+        cursor: pointer;
+        color: #191919;
+        transition: all 0.25s ease;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}

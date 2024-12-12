@@ -32,7 +32,7 @@ export interface IDocument {
     cityStatus: ICityFuture;
     futureStatusId: number;
     tags: ITag[];
-    authorId: number;
+    authors: IAuthor[]
 }
 
 export type IDocumentBody = {
@@ -67,6 +67,7 @@ export interface IRoute {
     Icon?: JSX.Element;
     Component: JSX.Element;
     inDrawer?: boolean;
+    userValidate?: (user?: IUser) => boolean
 }
 
 export type GraphValue = {
@@ -100,3 +101,8 @@ export type FormHandle = {
     setValue: UseFormSetValue<Record<string, any>>;
     reset: UseFormReset<Record<string, any>>;
 };
+
+export type DropdownItem = {
+    name: string;
+    onClick: () => void;
+}

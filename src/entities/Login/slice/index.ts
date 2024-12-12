@@ -11,7 +11,7 @@ type InitialState = {
 
 const initialState: InitialState = {
     user: undefined,
-    isLoading: false,
+    isLoading: true,
     token: "",
 };
 
@@ -46,9 +46,8 @@ export const fetchRegister = createAsyncThunk(
 export const fetchLoginByToken = createAsyncThunk(
     "asyncTokenUser",
     async () => {
-        const response = await RestInstanse.get<ResponseType>(`current`);
-        const data: ResponseType = response.data;
-
+        const response = await RestInstanse.get<IUser>(`current`);
+        const data: IUser = response.data;
         return data;
     }
 );
@@ -60,6 +59,7 @@ export const userSlice = createSlice({
         logout(state) {
             state.user = undefined;
             state.token = "";
+            removeCookie("token");
         },
     },
     extraReducers(builder) {
@@ -96,9 +96,9 @@ export const userSlice = createSlice({
         });
 
         builder.addCase(fetchLoginByToken.fulfilled, (state, action) => {
-            state.user = action.payload.user;
+            state.user = action.payload;
             state.isLoading = false;
-            state.token = action.payload.token;
+            state.token = getCookie("token") ?? "";
         });
 
         builder.addCase(fetchLoginByToken.rejected, (state) => {
@@ -111,3 +111,5 @@ export const userSlice = createSlice({
         });
     },
 });
+
+export const { logout } = userSlice.actions;

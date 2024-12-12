@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { FC, PropsWithChildren, useMemo } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation,NavLink } from "react-router-dom";
 import styles from "./styles.module.css";
 
 type Props = {
@@ -18,14 +18,14 @@ const CustomLink: FC<PropsWithChildren<Props>> = (props) => {
     }, [location.pathname, url]);
 
     return (
-        <Link
+        <NavLink
             to={url}
             className={classNames(className, styles.link, {
                 [styles.active]: isActive,
             })}
         >
             {children}
-        </Link>
+        </NavLink>
     );
 };
 

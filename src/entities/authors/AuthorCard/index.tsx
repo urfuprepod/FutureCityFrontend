@@ -28,7 +28,7 @@ const AuthorCard: FC<Props> = React.memo(({ author }) => {
                 height={80}
                 src={avatarUrl ? `http://localhost:3000/`+avatarUrl : NoAvatar}
             />
-            <Title6>{fullName}</Title6>
+            <Title6 $align="center">{fullName}</Title6>
             <p className={styles[classPrefix + "__biography"]}>{biography}</p>
             <Button className="">Подробнее</Button>
         </Flex>

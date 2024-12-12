@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { Flex, Sidebar, SidebarMenuButton } from "src/shared/UI";
 import SidebarIcon from "src/assets/icons/arrow.svg";
 import { routes } from "src/shared/constants";
 import CustomLink from "./CustomLink";
+import { useGetCurrentUser } from "src/app/hooks";
+import { IRoute, IUser } from "src/shared/types";
 
-const SideBar = () => {
+type Props = {
+    user?: IUser;
+    actualRoutes: IRoute[];
+};
+const SideBar: FC<Props> = ({ user, actualRoutes }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     return (
@@ -13,15 +19,23 @@ const SideBar = () => {
                 $collapsed={isCollapsed}
                 onClick={() => setIsCollapsed((prev) => !prev)}
             >
-                <img style={{userSelect: 'none'}} width={15} height={15} src={SidebarIcon} alt="icon" />
+                <img
+                    style={{ userSelect: "none" }}
+                    width={15}
+                    height={15}
+                    src={SidebarIcon}
+                    alt="icon"
+                />
             </SidebarMenuButton>
 
             <Flex $isVertical gap={15} align="flex-start">
-                {routes.filter(el => !!el.name).map((el) => (
-                    <CustomLink url={el.path} key={el.name}>
-                        {el.Icon} {isCollapsed && el.name}
-                    </CustomLink>
-                ))}
+                {actualRoutes
+                    .filter((el) => el.inDrawer !== false)
+                    .map((el) => (
+                        <CustomLink url={el.path} key={el.name}>
+                            {el.Icon} {isCollapsed && el.name}
+                        </CustomLink>
+                    ))}
             </Flex>
         </Sidebar>
     );

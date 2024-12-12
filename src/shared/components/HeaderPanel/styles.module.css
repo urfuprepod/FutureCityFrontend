@@ -1,0 +1,26 @@
+.container {
+    position: fixed;
+    padding-inline: 30px;
+    background: white;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 102;
+}
+
+.header-panel {
+    display: flex;
+    max-width: 1540px;
+    margin: 0 auto;
+    padding-inline: 20px;
+    align-items: center;
+    min-height: 70px;
+    justify-content: space-between;
+    gap: 20px;
+    user-select: none;
+
+    .main {
+        position: relative;
+        cursor: pointer;
+    }
+}

@@ -54,11 +54,13 @@ const FormField: FC<
                 {label}
             </label>
             <Flex $isVertical gap={5}>
-                {type === "input" ? (
+                {type === "input" || type === "password" ? (
                     <Input
                         $error={!!error?.type}
+                        autoComplete="new-password"
                         placeholder="Введите"
                         {...rest}
+                        type={type === "password" ? "password" : "text"}
                         id={name}
                         {...register(name, { required: isRequired })}
                     />
@@ -85,10 +87,6 @@ const FormField: FC<
                                     value={value?.fileName}
                                     onChange={(event) => {
                                         if (event.target.files) {
-                                            console.log(
-                                                event.target.files,
-                                                "доклады папич"
-                                            );
                                             const a = event.target.files[0];
                                             onChange(event.target.files[0]);
                                         }
@@ -111,6 +109,7 @@ const FormField: FC<
                             placeholder={"Выберите..."}
                             isClearable
                             isMulti={isMulti}
+                            defaultValue={{label: 'эй примеро с темой труферо', value: 3}}
                             options={options ?? []}
                             onChange={(selectedOption) =>
                                 setValue(

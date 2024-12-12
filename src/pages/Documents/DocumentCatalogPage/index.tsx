@@ -35,6 +35,9 @@ const DocumentCatalogPage = () => {
     const { data: authors } = rtkHooks.useGetAuthorsQuery(undefined);
     const { data: tags } = rtkHooks.useGetTagsQuery(undefined);
     const [createDocument] = rtkHooks.useAddDocumentMutation();
+    const [currentFutureStatusId, setCurrentFutureStatusId] = useState<
+        number | null
+    >(null);
     const ref = useRef(null);
 
     const { data } = rtkHooks.useGetDocumentsQuery(undefined);
@@ -43,10 +46,16 @@ const DocumentCatalogPage = () => {
         rtkHooks.useGetFutureStatusesQuery(undefined);
 
     const columns = useMemo<IFormField[]>(() => {
-        const parsedTags = (tags ?? []).map((el) => ({
-            value: el.id,
-            label: el.name,
-        }));
+        const parsedTags = (tags ?? [])
+            .filter(
+                (tag) =>
+                    tag.futureStatusId === currentFutureStatusId ||
+                    !currentFutureStatusId
+            )
+            .map((el) => ({
+                value: el.id,
+                label: el.name,
+            }));
         const parsedAuthors = (authors ?? []).map((el) => ({
             value: el.id,
             label: el.fullName,
@@ -59,7 +68,9 @@ const DocumentCatalogPage = () => {
                 label: "Статус города",
                 isRequired: true,
                 options: futureStatuses ?? [],
-                onChange(getValues, setValue) {},
+                onChange(getValues, setValue) {
+                    console.log(getValues());
+                },
             },
             {
                 type: "select",

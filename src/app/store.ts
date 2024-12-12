@@ -38,6 +38,7 @@ export const rtkHooks = {
     useGetAuthorsQuery: authorsApi.useGetAuthorsQuery,
     useAddAuthorMutation: authorsApi.useAddAuthorMutation,
     useGetSingleAuthorQuery: authorsApi.useGetSingleAuthorQuery,
+    useEditAuthorMutation : authorsApi.useEditAuthorMutation
 };
 
 export type RootState = ReturnType<typeof store.getState>;

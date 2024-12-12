@@ -3,7 +3,7 @@ type FormFileldType =
     | "textarea"
     | "select"
     | "file"
-    | "image"
+    | 'password'
     | "number";
 
 interface IFormField {

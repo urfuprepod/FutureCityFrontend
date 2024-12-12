@@ -13,11 +13,16 @@ export const GridLine = styled.div<{ $minWidth: number; $isFill?: boolean }>`
     gap: 20px;
 `;
 
-export const Title6 = styled.h6<{ fontSize?: number; margin?: number[] }>`
+export const Title6 = styled.h6<{
+    fontSize?: number;
+    margin?: number[];
+    $align?: "start" | "center" | "end";
+}>`
     margin: 0;
     padding: 0;
     font-size: ${(props) => (props.fontSize ? `${props.fontSize}px` : "2rem")};
     color: #252b37;
+    text-align: ${(props) => props.$align ?? "start"};
 `;
 
 export const Title1 = styled.h1<{
@@ -249,14 +254,14 @@ export const Sidebar = styled.aside<{ $collapsed?: boolean }>`
     flex: 0 0 ${(props) => `${props.$collapsed ? `200` : "64"}`}px;
     position: relative;
     overflow: hidden;
-    padding: 10px 20px;
+    padding: 80px 20px 10px;
     position: sticky;
     top: 0;
     left: 0;
     height: 100dvh;
     z-index: 101;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: white
+    background-color: white;
 `;
 
 export const SidebarMenuButton = styled.button<{ $collapsed?: boolean }>`
@@ -311,4 +316,23 @@ export const DocumentSubPoint = styled.span<{ $fontSize?: number }>`
     font-size: ${(props) =>
         props.$fontSize ? `${props.$fontSize}px` : "1.2rem"};
     color: #d5d5d5;
+`;
+
+export const DocumentList = styled.div<{ $gap?: number }>`
+    display: flex;
+    gap: ${(props) => (props.$gap ? `${props.$gap}px` : "10px")};
+    overflow-x: auto;
+    width: 100%;
+    &::-webkit-scrollbar {
+        width: 8px; /* ширина scrollbar */
+        height: 8px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent; /* цвет дорожки */
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #c1c1c1; /* цвет плашки */
+        border-radius: 3px; /* закругления плашки */
+        /* border: 3px solid orange; padding вокруг плашки */
+    }
 `;

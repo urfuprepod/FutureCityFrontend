@@ -49,7 +49,6 @@ const TagsPage = () => {
 
     const filteredTags = useMemo(() => {
         if (!data) return [];
-        console.log(filter.status);
         return data
             .filter(
                 (tag) =>

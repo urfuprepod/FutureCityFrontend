@@ -1,18 +1,27 @@
 import { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { authors } from "src/shared/constants";
-import { Card, DescriptionText, ErrorTitle, Flex, Title2 } from "src/shared/UI";
+import {
+    Card,
+    DescriptionText,
+    DocumentList,
+    ErrorTitle,
+    Flex,
+    Title2,
+    Title3,
+} from "src/shared/UI";
 import NoAvatar from "src/assets/no-avatar.jpg";
-import { DocumentChip, Slider, TitleWithButton } from "src/shared/components";
+import { DocumentChip, TitleWithButton } from "src/shared/components";
 import styles from "./styles.module.css";
 import AddItemModal from "src/Widgets/AddItemModal";
-import { authorFormFields } from "src/entities/authors/constants";
 import { rtkHooks } from "src/app/store";
+import { useAuthorsColumns } from "src/entities/authors/hooks";
 
 const AuthorProfile = () => {
     const { id } = useParams();
 
     const { data, isLoading } = rtkHooks.useGetSingleAuthorQuery(id ? +id : -1);
+    const [editAuthor] = rtkHooks.useEditAuthorMutation();
+    const [columns, generateForm] = useAuthorsColumns();
 
     const [isEditingMode, setIsEditingMode] = useState<boolean>(false);
     const closeShowed = useCallback(() => {
@@ -40,7 +49,11 @@ const AuthorProfile = () => {
                         width={250}
                         height={250}
                         className={styles.author__avatar}
-                        src={data.avatarUrl ? `http://localhost:3000/`+data.avatarUrl : NoAvatar}
+                        src={
+                            data.avatarUrl
+                                ? `http://localhost:3000/` + data.avatarUrl
+                                : NoAvatar
+                        }
                     />
                     <Flex $isVertical gap={12}>
                         <Title2>{data.fullName}</Title2>
@@ -53,8 +66,9 @@ const AuthorProfile = () => {
 
             <Card>
                 <Title2 $mb={15}>Работы автора</Title2>
-                <Slider>
-                    <Flex gap={20}>
+
+                {data.documents.length ? (
+                    <DocumentList $gap={20}>
                         {data.documents.map((el) => (
                             <DocumentChip
                                 key={el.id}
@@ -62,19 +76,22 @@ const AuthorProfile = () => {
                                 skipAuthor
                             />
                         ))}
-                    </Flex>
-                </Slider>
+                    </DocumentList>
+                ) : (
+                    <Title3>Работ пока нет!</Title3>
+                )}
             </Card>
             <AddItemModal
                 showed={isEditingMode}
                 closeShowed={closeShowed}
-                onAccept={() =>
-                    new Promise((resolve) => {
-                        resolve();
-                    })
-                }
-                fields={authorFormFields}
-                defaultValues={data}
+                onAccept={async (val: any) => {
+                    editAuthor({ body: generateForm(val), id: data.id ?? -1 });
+                }}
+                fields={columns}
+                defaultValues={{
+                    ...data,
+                    documents: data.documents.map(el => el.id),
+                }}
                 title={data.fullName}
                 description="Введите данные для редактирования и сохраните изменения"
             />
