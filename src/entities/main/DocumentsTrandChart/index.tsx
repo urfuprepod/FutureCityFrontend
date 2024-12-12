@@ -64,6 +64,7 @@ const DocumentsTrandChart: FC<Props> = ({ documents }) => {
                     borderColor: "rgba(255, 99, 132, 1)",
                     backgroundColor: "rgba(255, 99, 132, 1)",
                     borderWidth: 2,
+                    lineTension: 1,
                 },
             ],
         };
@@ -76,6 +77,7 @@ const DocumentsTrandChart: FC<Props> = ({ documents }) => {
 
     const options = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 position: "bottom" as const,
@@ -90,8 +92,8 @@ const DocumentsTrandChart: FC<Props> = ({ documents }) => {
     return (
         <GraphContainer $max>
             <Title6>Статьи по годам</Title6>
-            <div style={{ height: 400, width: "100%" }}>
-                <Line options={options} data={config.data} />
+            <div style={{ height: 500, width: "100%" }}>
+                <Line options={options} data={config.data} height={'100%'} />
             </div>
         </GraphContainer>
     );

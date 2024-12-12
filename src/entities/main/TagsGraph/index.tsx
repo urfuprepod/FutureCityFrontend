@@ -9,12 +9,13 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { GraphContainer, Title6 } from "src/shared/UI";
-import { GraphValue, IAuthor } from "src/shared/types";
+import { GraphValue, IAuthor, IDocument, ITag } from "src/shared/types";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
 type Props = {
-    authors: IAuthor[];
+    authors: IDocument[];
+    tags: ITag[];
 };
 
 const colorDictionaryByFutureStatus: Record<string, string> = {
@@ -25,34 +26,29 @@ const colorDictionaryByFutureStatus: Record<string, string> = {
 function generateColors(values: GraphValue[]) {
     return values.map(
         ({ futureStatus }) =>
-            colorDictionaryByFutureStatus[futureStatus ?? ''] ?? "#467be3"
+            colorDictionaryByFutureStatus[futureStatus ?? ""] ?? "#467be3"
     );
 }
 
 const TagsGraph: FC<Props> = (props) => {
-    const { authors } = props;
+    const { authors, tags } = props;
 
     const config = useMemo(() => {
-        const max = Math.max(...authors.map((el) => el.documents.length));
-
         const values = authors.reduce<GraphValue[]>(
-            (acc: GraphValue[], cur: IAuthor) => {
-                cur.documents.forEach((el) => {
-                    el.tags.forEach((tag) => {
-                        const current = acc.find(
-                            ({ name }) => name === tag.name
-                        );
-                        if (current) {
-                            current.count++;
-                        } else {
-                            acc.push({
-                                name: tag.name,
-                                count: 1,
-                                futureStatus: el.cityStatus.name,
-                            });
-                        }
-                    });
+            (acc: GraphValue[], cur: IDocument) => {
+                cur.tags.forEach((tag) => {
+                    const current = acc.find(({ name }) => name === tag.name);
+                    if (current) {
+                        current.count++;
+                    } else {
+                        acc.push({
+                            name: tag.name,
+                            count: 1,
+                            futureStatus: cur.cityStatus.name,
+                        });
+                    }
                 });
+
                 return acc;
             },
             []
@@ -74,7 +70,6 @@ const TagsGraph: FC<Props> = (props) => {
 
         return {
             data,
-            maxValue: max,
         };
     }, [authors]);
 
@@ -92,7 +87,7 @@ const TagsGraph: FC<Props> = (props) => {
                 stacked: true,
                 ticks: {
                     min: 0,
-                    max: config.maxValue,
+                    // max: config.maxValue,
                     stepSize: 1,
                 },
                 grid: {
@@ -113,7 +108,7 @@ const TagsGraph: FC<Props> = (props) => {
     };
 
     return (
-        <GraphContainer $max>
+        <GraphContainer>
             <Title6>Теги</Title6>
             <div style={{ width: "100%" }}>
                 <Bar options={options} height={400} data={config.data} />

@@ -3,3 +3,4 @@ export {default as FilterSelect} from './FilterSelect'
 export {default as AuthorsDoughnut} from './AuthorsDoughnut'
 export {default as TagsGraph} from './TagsGraph';
 export {default as DocumentsTrandChart} from './DocumentsTrandChart'
+export {default as LocationGraph} from './LocationGraph'

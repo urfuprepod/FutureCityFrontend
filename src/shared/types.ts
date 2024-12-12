@@ -20,6 +20,7 @@ export interface ITag {
     id: number;
     name: string;
     futureStatusId: number;
+    status: ICityFuture
 }
 
 export type ITagBody = Pick<ITag, "name" | "futureStatusId">;
@@ -32,12 +33,14 @@ export interface IDocument {
     cityStatus: ICityFuture;
     futureStatusId: number;
     tags: ITag[];
+    location: string;
     authors: IAuthor[]
 }
 
 export type IDocumentBody = {
     title: string;
     file: File;
+    location: string; 
     year: number;
     tagIds: number[];
     status: number;

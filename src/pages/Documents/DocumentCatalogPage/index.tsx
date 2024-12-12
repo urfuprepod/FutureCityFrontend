@@ -24,6 +24,7 @@ function setDocumentToFormData(doc: IDocumentBody) {
     formData.append("title", doc.title);
     formData.append("year", String(doc.year));
     formData.append("file", doc.file);
+    formData.append('location', doc.location);
     formData.append("tagIds", doc.tagIds);
     formData.append("status", String(doc.status));
     console.log("аоаоа");

@@ -2,6 +2,7 @@ import {
     AuthorsDoughnut,
     AuthorsGraph,
     DocumentsTrandChart,
+    LocationGraph,
     TagsGraph,
 } from "src/entities/main";
 import { Flex, MainContainer, Title1 } from "src/shared/UI";
@@ -17,10 +18,12 @@ const MainPage = () => {
     const { data: documents } = rtkHooks.useGetDocumentsQuery(undefined);
     const { data: futureStatuses } =
         rtkHooks.useGetFutureStatusesQuery(undefined);
+    const {data: tags} = rtkHooks.useGetTagsQuery(undefined);
 
     const decades = useGenerateDecade(documents);
 
     const filterConfig = useMemo<FilterFabric[]>(() => {
+        console.log(futureStatuses, authors)
         return [
             {
                 label: "Авторы",
@@ -38,7 +41,7 @@ const MainPage = () => {
                 placeholder: "Статусы",
                 isMulti: false,
                 options: futureStatuses ?? [],
-                labelField: "name",
+                labelField: "label",
             },
             {
                 label: "Десятилетия",
@@ -57,7 +60,7 @@ const MainPage = () => {
     const config = useMemo<{
         authors: IAuthor[];
         documents: IDocument[];
-        groupedByLocation: Record<string, number>;
+        groupedByLocation: Record<string, Record<number, number>>;
     }>(() => {
         const filteredAuthors = (authors ?? [])
             .filter(
@@ -93,12 +96,17 @@ const MainPage = () => {
             return isStatusCorrect && isAuthorsCorrect && isDecadeCorrect;
         });
         const groupedByLocation = filteredDocuments.reduce<
-            Record<string, number>
-        >((acc: Record<string, number>, cur: IDocument) => {
-            if (!acc[cur.title]) {
-                acc[cur.title] = 1;
+            Record<string, Record<string, number>>
+        >((acc: Record<string, Record<number, number>>, cur: IDocument) => {
+            if (!acc[cur.location]) {
+                acc[cur.location] = { [cur.futureStatusId]: 1 };
             } else {
-                acc[cur.title]++;
+                acc[cur.location] = {
+                    ...acc[cur.location],
+                    [cur.futureStatusId]: acc[cur.location][cur.futureStatusId]
+                        ? acc[cur.location][cur.futureStatusId] + 1
+                        : 1,
+                };
             }
             return acc;
         }, {});
@@ -121,7 +129,8 @@ const MainPage = () => {
             <MainContainer>
                 <AuthorsGraph authors={config.authors} />
                 <AuthorsDoughnut documents={config.documents} />
-                <TagsGraph authors={config.authors} />
+                <LocationGraph grouped={config.groupedByLocation} />
+                <TagsGraph authors={config.documents} tags={tags ?? []} />
                 <DocumentsTrandChart documents={config.documents} />
             </MainContainer>
         </Flex>
