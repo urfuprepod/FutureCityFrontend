@@ -3,7 +3,7 @@ import { IDocument } from "src/shared/types";
 import { Card, DocumentHeader, Flex } from "src/shared/UI";
 import DocumentIcon from "../DocumentIcon";
 import DocumentChipPoint from "./DocumentChipPoint";
-import styles from './styles.module.css'
+import styles from "./styles.module.css";
 
 type Props = {
     className?: string;
@@ -33,9 +33,7 @@ const DocumentChip: FC<Props> = React.memo((props) => {
                     download="myimage"
                 >
                     <DocumentIcon
-                        fileExtension={
-                            document.file.split(".").at(-1) ?? "pdf"
-                        }
+                        fileExtension={document.file.split(".").at(-1) ?? "pdf"}
                     />
                 </a>
                 <Flex
@@ -57,7 +55,13 @@ const DocumentChip: FC<Props> = React.memo((props) => {
                     </Flex>
                 </Flex>
             </Flex>
-            {!!document.tags.length && <Flex gap={5}>{document.tags.map(tag => <span className={styles.tag}>{tag.name}</span>)}</Flex> }
+            {!!document.tags.length && (
+                <Flex gap={5} style={{marginTop: 8}} $wrap>
+                    {document.tags.map((tag) => (
+                        <span key={tag.id} className={styles.tag}>{tag.name}</span>
+                    ))}
+                </Flex>
+            )}
         </Card>
     );
 });

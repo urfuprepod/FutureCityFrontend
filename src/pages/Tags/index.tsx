@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { rtkHooks } from "src/app/store";
 import { tagsColumns } from "src/entities/tags/constants";
 import { TitleWithButton } from "src/shared/components";
@@ -7,6 +7,7 @@ import { FilterFabric } from "src/shared/types";
 import { Flex, GridLine, Title1 } from "src/shared/UI";
 import AddItemModal from "src/Widgets/AddItemModal";
 import FiltersGrid from "src/Widgets/FiltersGrid";
+import styles from './styles.module.css'
 
 const filtersBase: FilterFabric[] = [
     {
@@ -83,7 +84,7 @@ const TagsPage = () => {
 
             <GridLine $minWidth={200} $isFill>
                 {filteredTags.length ? (
-                    filteredTags.map((tag) => <p key={tag.id}>{tag.name}</p>)
+                    filteredTags.map((tag) => <div className={styles.tag} key={tag.id}>{tag.name}</div>)
                 ) : (
                     <Title1>Не найдено</Title1>
                 )}

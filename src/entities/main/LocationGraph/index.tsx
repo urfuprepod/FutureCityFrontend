@@ -84,7 +84,7 @@ const LocationGraph: FC<Props> = ({ grouped }) => {
 
     return (
         <GraphContainer>
-            <Title6>Статьи по месту написания</Title6>
+            <Title6>Статьи по локациям</Title6>
             <div style={{ height: 400, width: '100%' }}>
                 <Bar options={options} data={data} />
             </div>

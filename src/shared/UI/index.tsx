@@ -171,6 +171,7 @@ export const GridFormLayout = styled.form<{ $gap?: number; $inRow?: number }>`
 export const Flex = styled.div<{
     $isVertical?: boolean;
     gap?: number;
+    $wrap?: boolean;
     align?: FlexAlign;
     justify?: FLexJustify;
 }>`
@@ -178,6 +179,7 @@ export const Flex = styled.div<{
     flex-direction: ${(props) => (props.$isVertical ? "column" : "row")};
     gap: ${(props) => (props.gap ? `${props.gap}px` : "0")};
     align-items: ${(props) => props.align};
+    flex-wrap: ${(props) => props.$wrap ? 'wrap': 'no-wrap'};
     justify-content: ${(props) => props.justify};
 `;
 

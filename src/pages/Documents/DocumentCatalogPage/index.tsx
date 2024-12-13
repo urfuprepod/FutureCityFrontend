@@ -4,7 +4,6 @@ import { Flex, GridLine } from "src/shared/UI";
 import { FilterFabric, IDocumentBody } from "src/shared/types";
 import { documentsColumns } from "src/entities/documents/constants";
 import AddItemModal from "src/Widgets/AddItemModal";
-import { FormState } from "react-hook-form";
 import { rtkHooks } from "src/app/store";
 import FiltersGrid from "src/Widgets/FiltersGrid";
 import { useFilters } from "src/shared/hooks/useFilters";
@@ -15,12 +14,16 @@ function setDocumentToFormData(doc: IDocumentBody) {
     formData.append("year", String(doc.year));
     formData.append("file", doc.file);
     formData.append("location", doc.location);
-    formData.append("tagIds", doc.tagIds);
+    if (doc.tagIds) {
+        doc.tagIds.forEach((el) => {
+            formData.append("tagIds", el);
+        });
+    }
     formData.append("futureStatusId", String(doc.status));
     if (doc.authors) {
-        doc.authors.forEach(el => {
+        doc.authors.forEach((el) => {
             formData.append("authorIds", el);
-        })
+        });
     }
     return formData;
 }
@@ -63,17 +66,10 @@ const DocumentCatalogPage = () => {
     }, [futureStatuses]);
 
     const columns = useMemo<IFormField[]>(() => {
-        console.log(currentFutureStatusId);
-        const parsedTags = (tags ?? [])
-            .filter(
-                (tag) =>
-                    tag.futureStatusId === currentFutureStatusId ||
-                    !currentFutureStatusId
-            )
-            .map((el) => ({
-                value: el.id,
-                label: el.name,
-            }));
+        const parsedTags = (tags ?? []).map((el) => ({
+            value: el.id,
+            label: el.name,
+        }));
         const parsedAuthors = (authors ?? []).map((el) => ({
             value: el.id,
             label: el.fullName,
@@ -87,13 +83,15 @@ const DocumentCatalogPage = () => {
                 isRequired: true,
                 options: futureStatuses ?? [],
                 onChange(getValues, setValue) {
-                    setCurrentFutureStatusId(getValues("status") ?? null);
+                    // console.log(getValues())
+                    // setCurrentFutureStatusId(getValues("status") ?? null);
+                    // setValue('tagIds', [])
                 },
             },
             {
                 type: "select",
                 name: "tagIds",
-                label: "Теги",
+                label: "Тэги",
                 isRequired: true,
                 isMulti: true,
                 options: parsedTags,

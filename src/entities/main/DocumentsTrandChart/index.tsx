@@ -64,7 +64,7 @@ const DocumentsTrandChart: FC<Props> = ({ documents }) => {
                     borderColor: "rgba(255, 99, 132, 1)",
                     backgroundColor: "rgba(255, 99, 132, 1)",
                     borderWidth: 2,
-                    lineTension: 1,
+                    lineTension: 0.1,
                 },
             ],
         };

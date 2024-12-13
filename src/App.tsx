@@ -10,7 +10,6 @@ function App() {
     const { user, isLoading } = useGetCurrentUser();
 
     const actualRoutes = useMemo<IRoute[]>(() => {
-        console.log(routes.filter((el) => el.userValidate?.(user) ?? true));
         return routes.filter((el) => el.userValidate?.(user) ?? true);
     }, [user]);
 

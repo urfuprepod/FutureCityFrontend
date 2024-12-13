@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import {
     Control,
     Controller,
@@ -13,7 +13,8 @@ import {
 } from "react-hook-form";
 import { Flex, Input, TextArea } from "src/shared/UI";
 import styles from "./styles.module.css";
-import ReactSelect, { SingleValue } from "react-select";
+import ReactSelect, { SelectInstance, SingleValue } from "react-select";
+import { useEffectSkipFirstRender } from "src/shared/hooks";
 
 const dictionary: Record<string, string> = {
     required: "Это обязательное поле",
@@ -27,6 +28,7 @@ type Props = {
     setValue: UseFormSetValue<Record<string, any>>;
     getValues: UseFormGetValues<Record<string, any>>;
     defaultVal?: number[] | number;
+    trigger: boolean;
 };
 const FormField: FC<Props> = (props) => {
     const {
@@ -36,11 +38,10 @@ const FormField: FC<Props> = (props) => {
         control,
         defaultVal,
         getValues,
+        trigger,
         setValue,
         ...rest
     } = props;
-
-    const [isTouched, setIsTouched] = useState<boolean>(false);
 
     const defaultSelectValues = useMemo(() => {
         if (!defaultVal || type !== "select" || !options) return null;
@@ -49,6 +50,13 @@ const FormField: FC<Props> = (props) => {
         return options.find((el) => el.value === defaultVal);
     }, [options, defaultVal, type]);
 
+    const ref = useRef<SelectInstance<any>>(null);
+
+    useEffectSkipFirstRender(() => {
+        if (ref.current) {
+            ref.current.clearValue();
+        }
+    }, trigger);
     return (
         <>
             <label
@@ -111,9 +119,11 @@ const FormField: FC<Props> = (props) => {
                 type === "select" ? (
                     <>
                         <ReactSelect
+                            ref={ref}
                             className="select"
                             placeholder={"Выберите..."}
                             isClearable
+                            isSearchable={true}
                             isMulti={isMulti}
                             defaultValue={
                                 defaultVal ? defaultSelectValues : null

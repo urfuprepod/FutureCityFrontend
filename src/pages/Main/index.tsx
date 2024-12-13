@@ -23,7 +23,6 @@ const MainPage = () => {
     const decades = useGenerateDecade(documents);
 
     const filterConfig = useMemo<FilterFabric[]>(() => {
-        console.log(futureStatuses, authors)
         return [
             {
                 label: "Авторы",

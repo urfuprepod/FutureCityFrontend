@@ -4,7 +4,7 @@ import { useLocalStorage } from "./useLocalStorage";
 import { useQueryFilter } from "./useQueryFilter";
 import { useGenerateDecade } from "./useGenerateDecades";
 import { usePagination } from "./usePagination";
-
+import { useEffectSkipFirstRender } from "./useEffectSkipFirstRender";
 
 import { bindActionCreators } from "@reduxjs/toolkit";
 
@@ -18,4 +18,5 @@ export {
     useAppSelector,
     usePagination,
     useGenerateDecade,
+    useEffectSkipFirstRender,
 };

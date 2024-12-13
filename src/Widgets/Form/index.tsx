@@ -1,4 +1,4 @@
-import { FC, forwardRef, useImperativeHandle } from "react";
+import { FC, forwardRef, useImperativeHandle, useState } from "react";
 import { Button, Flex } from "src/shared/UI";
 import { useForm } from "react-hook-form";
 import { FormField } from "src/entities/form";
@@ -28,6 +28,7 @@ const Form = forwardRef((props: Props, ref) => {
     });
 
     const { errors } = formState;
+    const [trigger, setTrigger] = useState(false);
 
     const onSubmitForm = async (data: any) => {
         onSubmit?.(data);
@@ -40,7 +41,10 @@ const Form = forwardRef((props: Props, ref) => {
                 formState,
                 getValues,
                 setValue,
-                reset,
+                reset: () => {
+                    reset();
+                    setTrigger(prev => !prev)
+                }, 
             };
         },
         []
@@ -59,6 +63,7 @@ const Form = forwardRef((props: Props, ref) => {
                         field={field}
                         error={errors[field.name]}
                         register={register}
+                        trigger={trigger}
                     />
                 ))}
             </Flex>

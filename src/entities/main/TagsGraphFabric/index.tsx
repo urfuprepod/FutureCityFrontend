@@ -127,7 +127,7 @@ const TagsGraphFabric: FC<Props> = (props) => {
 
     return (
         <GraphContainer $max>
-            <Title6>Теги</Title6>
+            <Title6>Тэги</Title6>
             <div style={{ width: "100%" }}>
                 <Bar options={options} height={400} data={config.data} />
             </div>
