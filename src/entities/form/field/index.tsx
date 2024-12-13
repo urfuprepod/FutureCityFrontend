@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import {
     Control,
     Controller,
@@ -7,6 +7,7 @@ import {
     FieldErrorsImpl,
     FieldValues,
     Merge,
+    UseFormGetValues,
     UseFormRegister,
     UseFormSetValue,
 } from "react-hook-form";
@@ -24,24 +25,29 @@ type Props = {
     error: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
     control: Control<Record<string, any>, any>;
     setValue: UseFormSetValue<Record<string, any>>;
+    getValues: UseFormGetValues<Record<string, any>>;
+    defaultVal?: number[] | number;
 };
-const FormField: FC<
-    Props
-    // DetailedHTMLProps<
-    //     InputHTMLAttributes<HTMLInputElement>,
-    //     HTMLInputElement
-    // >
-> = (props) => {
+const FormField: FC<Props> = (props) => {
     const {
-        field: { name, label, type, isRequired, options, isMulti },
+        field: { name, label, type, isRequired, options, isMulti, onChange },
         register,
         error,
         control,
+        defaultVal,
+        getValues,
         setValue,
         ...rest
     } = props;
 
     const [isTouched, setIsTouched] = useState<boolean>(false);
+
+    const defaultSelectValues = useMemo(() => {
+        if (!defaultVal || type !== "select" || !options) return null;
+        if (Array.isArray(defaultVal))
+            return options.filter((el) => defaultVal.includes(el.value));
+        return options.find((el) => el.value === defaultVal);
+    }, [options, defaultVal, type]);
 
     return (
         <>
@@ -109,9 +115,12 @@ const FormField: FC<
                             placeholder={"Выберите..."}
                             isClearable
                             isMulti={isMulti}
-                            defaultValue={{label: 'эй примеро с темой труферо', value: 3}}
+                            defaultValue={
+                                defaultVal ? defaultSelectValues : null
+                            }
+                            noOptionsMessage={() => <span>Не найдено</span>}
                             options={options ?? []}
-                            onChange={(selectedOption) =>
+                            onChange={(selectedOption) => {
                                 setValue(
                                     name,
                                     Array.isArray(selectedOption)
@@ -122,8 +131,9 @@ const FormField: FC<
                                                   label: string;
                                               }>
                                           )?.value
-                                )
-                            }
+                                );
+                                onChange?.(getValues, setValue);
+                            }}
                             // {...register(name, { required: isRequired })}
                             classNamePrefix={"select"}
                         />

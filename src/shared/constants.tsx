@@ -49,7 +49,7 @@ export const documents: IDocument[] = [
         authorId: 1,
         file: "test.pdf",
         tags: tags.slice(0, 4),
-        cityStatus: futureStatuses[0],
+        status: futureStatuses[0],
         futureStatusId: 0,
     },
     {
@@ -59,7 +59,7 @@ export const documents: IDocument[] = [
         authorId: 1,
         file: "https://www.100bestbooks.ru/files/London_Lyubov_k_zhizni.pdf",
         tags: tags.slice(9, 12),
-        cityStatus: futureStatuses[1],
+        status: futureStatuses[1],
         futureStatusId: 1,
     },
     {
@@ -69,7 +69,7 @@ export const documents: IDocument[] = [
         year: 2010,
         file: "https://www.100bestbooks.ru/files/London_Lyubov_k_zhizni.pdf",
         tags: [tags[0], tags[2], tags[6], tags[5]],
-        cityStatus: futureStatuses[0],
+        status: futureStatuses[0],
         futureStatusId: 0,
     },
     {
@@ -79,7 +79,7 @@ export const documents: IDocument[] = [
         year: 1985,
         file: "https://www.100bestbooks.ru/files/London_Lyubov_k_zhizni.pdf",
         tags: tags.slice(0, 5),
-        cityStatus: futureStatuses[0],
+        status: futureStatuses[0],
         futureStatusId: 0,
     },
     {
@@ -89,7 +89,7 @@ export const documents: IDocument[] = [
         year: 1978,
         file: "https://www.100bestbooks.ru/files/London_Lyubov_k_zhizni.pdf",
         tags: [tags[8], tags[9], tags[11]],
-        cityStatus: futureStatuses[1],
+        status: futureStatuses[1],
         futureStatusId: 1,
     },
     {
@@ -99,7 +99,7 @@ export const documents: IDocument[] = [
         year: 1981,
         file: "https://www.100bestbooks.ru/files/London_Lyubov_k_zhizni.pdf",
         tags: [tags[8], tags[12], tags[13]],
-        cityStatus: futureStatuses[1],
+        status: futureStatuses[1],
         futureStatusId: 1,
     },
     {
@@ -109,7 +109,7 @@ export const documents: IDocument[] = [
         year: 1989,
         file: "https://www.100bestbooks.ru/files/London_Lyubov_k_zhizni.pdf",
         tags: [tags[8], tags[12], tags[13]],
-        cityStatus: futureStatuses[1],
+        status: futureStatuses[1],
         futureStatusId: 1,
     },
 ];

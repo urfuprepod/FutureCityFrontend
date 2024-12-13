@@ -34,9 +34,9 @@ const HeaderPanel: FC<Props> = ({ user }) => {
                 },
             },
         ];
-        if (!user) return { login: "Аноним", links };
+        if (!user) return { login: "Аноним", links: links.slice(0, -1) };
 
-        return { login: user.login, links };
+        return { login: user.login, links: links.slice(-1) };
     }, [user]);
 
     return (

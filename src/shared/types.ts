@@ -30,7 +30,7 @@ export interface IDocument {
     title: string;
     year: number;
     file: string;
-    cityStatus: ICityFuture;
+    status: ICityFuture;
     futureStatusId: number;
     tags: ITag[];
     location: string;
@@ -44,6 +44,7 @@ export type IDocumentBody = {
     year: number;
     tagIds: number[];
     status: number;
+    authors?: number[];
 };
 
 export interface IAuthor {

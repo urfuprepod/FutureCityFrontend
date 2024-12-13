@@ -44,7 +44,7 @@ const TagsGraph: FC<Props> = (props) => {
                         acc.push({
                             name: tag.name,
                             count: 1,
-                            futureStatus: cur.cityStatus.name,
+                            futureStatus: cur.status.name,
                         });
                     }
                 });

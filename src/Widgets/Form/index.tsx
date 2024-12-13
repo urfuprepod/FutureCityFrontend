@@ -31,7 +31,6 @@ const Form = forwardRef((props: Props, ref) => {
 
     const onSubmitForm = async (data: any) => {
         onSubmit?.(data);
-        console.log(data);
     };
 
     useImperativeHandle(
@@ -41,7 +40,7 @@ const Form = forwardRef((props: Props, ref) => {
                 formState,
                 getValues,
                 setValue,
-                reset
+                reset,
             };
         },
         []
@@ -55,6 +54,8 @@ const Form = forwardRef((props: Props, ref) => {
                         key={field.name}
                         control={control}
                         setValue={setValue}
+                        getValues={getValues}
+                        defaultVal={defaultValues?.[field.name] ?? []}
                         field={field}
                         error={errors[field.name]}
                         register={register}

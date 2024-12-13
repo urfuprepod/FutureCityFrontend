@@ -1,4 +1,5 @@
 import { FC, PropsWithChildren } from "react";
+import { useAppSelector } from "src/shared/hooks";
 import { Button, Flex, Title1 } from "src/shared/UI";
 
 type Props = {
@@ -9,6 +10,8 @@ type Props = {
 const TitleWithHeader: FC<PropsWithChildren<Props>> = (props) => {
     const { onClick, buttonTitle, children, marginBottom } = props;
 
+    const { user } = useAppSelector((state) => state.User);
+
     return (
         <Flex
             style={{ marginBottom: marginBottom ?? 0 }}
@@ -16,7 +19,7 @@ const TitleWithHeader: FC<PropsWithChildren<Props>> = (props) => {
             align="center"
         >
             <Title1>{children}</Title1>
-            <Button onClick={onClick}>{buttonTitle}</Button>
+            {user?.isAdmin && <Button onClick={onClick}>{buttonTitle}</Button>}
         </Flex>
     );
 };
